@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtualna okruženja
+.venv/
+venv/
+
+# Lokalne postavke s API ključevima i osobnim putanjama
+grok_video_settings.json
+grok_video_settings.json.tmp
+
+# Generirani video i nedovršena preuzimanja
+videos/
+*.mp4
+*.part
+*.mp4.part
+
+# Editori i logovi
+.vscode/
+.idea/
+*.log
