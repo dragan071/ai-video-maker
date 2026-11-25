@@ -28,16 +28,26 @@ A small desktop app for creating videos with the **xAI / Grok Imagine** or **Goo
 
 According to the official documentation, Google's 1080p and 4K output is upscaled from a lower resolution.
 
+## Platform
+
+The app runs on **Linux** with GTK4 and libadwaita. Windows and macOS are not supported directly:
+
+- **Windows:** run the app inside **WSL2**. On Windows 11, WSLg displays the window like a native app.
+- **macOS:** not tested. PyGObject, GTK4 and libadwaita can be installed with Homebrew, but only Linux is supported.
+
+If PyGObject, GTK4 or libadwaita is missing, the app prints a short message with install commands instead of a traceback.
+
 ## Running
 
 You need Python 3.10 or newer, GTK4, **libadwaita** and PyGObject.
 
 ```bash
+git clone https://github.com/dragan071/ai-video-maker.git
 cd ai-video-maker
 python3 app.py
 ```
 
-If GTK/PyGObject are missing on another Linux machine:
+Install the GUI libraries if they are missing:
 
 ```bash
 # Fedora
@@ -48,6 +58,32 @@ sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1
 ```
 
 No `pip` packages are required.
+
+### Windows (WSL2)
+
+1. Install WSL2 with Ubuntu (PowerShell as Administrator):
+
+   ```powershell
+   wsl --install -d Ubuntu
+   ```
+
+2. Inside Ubuntu, install the GUI libraries:
+
+   ```bash
+   sudo apt update
+   sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1
+   ```
+
+3. Clone the project into your Linux home directory (working under `/mnt/c` is much slower) and run it:
+
+   ```bash
+   cd ~
+   git clone https://github.com/dragan071/ai-video-maker.git
+   cd ai-video-maker
+   python3 app.py
+   ```
+
+WSLg is included in Windows 11. Windows 10 needs a separate X server to display the window.
 
 ## API keys
 

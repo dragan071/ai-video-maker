@@ -3,14 +3,34 @@
 
 from __future__ import annotations
 
+import sys
 import threading
 from pathlib import Path
+from typing import NoReturn
 
-import gi
 
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-from gi.repository import Adw, Gio, GLib, Gtk
+def _exit_missing_gui(detail: str) -> NoReturn:
+    """Print a friendly message instead of a traceback when GTK is unavailable."""
+    sys.stderr.write(
+        "AI Video Maker requires Linux with GTK4 and libadwaita (PyGObject).\n"
+        f"\nMissing dependency: {detail}\n"
+        "\nInstall it with:\n"
+        "  Fedora:         sudo dnf install python3-gobject gtk4 libadwaita python3-libadwaita\n"
+        "  Ubuntu/Debian:  sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1\n"
+        "\nOn Windows, run the app inside WSL2 (Windows 11 includes WSLg):\n"
+        "  https://github.com/dragan071/ai-video-maker#running\n"
+    )
+    raise SystemExit(1)
+
+
+try:
+    import gi
+
+    gi.require_version("Gtk", "4.0")
+    gi.require_version("Adw", "1")
+    from gi.repository import Adw, Gio, GLib, Gtk
+except (ImportError, ValueError) as exc:
+    _exit_missing_gui(str(exc) or "PyGObject, GTK4 or libadwaita is not installed")
 
 from google_api import (
     GOOGLE_ASPECT_RATIOS,
